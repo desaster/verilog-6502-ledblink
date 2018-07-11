@@ -19,13 +19,15 @@ initial begin
     clk_out = 0;
 end
 
-always @(posedge clk && enable) begin
-    if (counter == COUNTER_MAX - 1) begin
-        counter <= 0;
-        clk_out <= ~clk_out;
-    end
-    else begin
-        counter <= counter + 1'd1;
+always @(posedge clk) begin
+    if (enable) begin
+        if (counter == COUNTER_MAX - 1) begin
+            counter <= 0;
+            clk_out <= ~clk_out;
+        end
+        else begin
+            counter <= counter + 1'd1;
+        end
     end
 end
 
