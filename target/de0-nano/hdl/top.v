@@ -12,6 +12,7 @@ wire clk;
 reg enable = 1;
 reg reset = 1;
 reg [7:0] reset_count = 0;
+reg [2:0] KEYr;
 
 clk_div #(.SYS_CLK(50000000), .CLK_OUT(1000000)) clk_div_1(
     .clk (CLOCK_50),
@@ -32,10 +33,9 @@ always @(posedge clk) begin
             reset <= 0;
         end
     end
-end
 
-always @(posedge KEY[0]) begin
-    enable = ~enable;
+    KEYr <= { KEYr[1:0], KEY[0] };
+    if (KEYr[2:1] == 2'b01) enable = ~enable;
 end
 
 endmodule
