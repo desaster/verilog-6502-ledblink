@@ -9,10 +9,9 @@ module top(
 );
 
 wire clk;
-reg enable = 1;
-reg reset = 1;
-reg [7:0] reset_count = 0;
-reg [2:0] KEYr;
+wire enable = SW[0];
+reg reset = 1'b1;
+reg [7:0] reset_count = 1'b0;
 
 clk_div #(.SYS_CLK(50000000), .CLK_OUT(1000000)) clk_div_1(
     .clk (CLOCK_50),
@@ -27,15 +26,12 @@ cpu_core #(.ROM_FILE("../../../asm/ledblink.hex")) cpu_core(
 );
 
 always @(posedge clk) begin
-    if (reset == 1) begin
+    if (reset == 1'b1) begin
         reset_count = reset_count + 1'b1;
         if (reset_count == 8'hff) begin
-            reset <= 0;
+            reset <= 1'b0;
         end
     end
-
-    KEYr <= { KEYr[1:0], KEY[0] };
-    if (KEYr[2:1] == 2'b01) enable = ~enable;
 end
 
 endmodule
