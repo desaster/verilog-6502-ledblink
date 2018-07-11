@@ -1,0 +1,9 @@
+*.bin
+*.dump
+*.hex
+target/*/project/db
+target/*/project/greybox_tmp
+target/*/project/incremental_db
+target/*/project/output_files
+target/*/project/simulation
+target/*/project/*.rpt
