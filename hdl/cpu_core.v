@@ -116,20 +116,29 @@ reg clk = 0;
 reg reset = 1;
 wire [7:0] fakeled;
 
-cpu_core #(.ROM_FILE("../../../../../asm/ledblink.hex")) DUT(
+`ifndef LEDBLINKHEX
+    `define LEDBLINKHEX "../../../../../asm/ledblink.hex"
+`endif
+cpu_core #(.ROM_FILE(`LEDBLINKHEX)) DUT(
     .clk (clk),
     .reset (reset),
     .gpio1 (fakeled)
 );
+
+`ifndef FINISHTIME
+    `define FINISHTIME 10000000
+`endif
 
 initial begin
     #50 reset <= 0;
     #85 $display("addr %x: %s",
         DUT.addr,
         (DUT.addr == 16'hfc00) ? "OK" : "FAIL");
-    #10000000 $stop;
+    #`FINISHTIME $stop;
 end
 
 always #10 clk <= ~clk;
+
+always @(fakeled) $display("fakeled=%02x", fakeled);
 
 endmodule

@@ -17,15 +17,17 @@ SHELL=/bin/bash
 
 $(TARGET): ledblink.asm
 
+SIM ?= 0
+
 .PRECIOUS: %.bin %.dump
 
 %.bin: %.asm
-	acme --cpu 6502 --format plain --outfile $@ $<
+	acme --cpu 6502 --format plain -DSIM=$(SIM) --outfile $@ $<
 
 %.dump: %.bin
-	dd if=/dev/zero of=$@ count=1 bs=1K status=none
-	dd conv=notrunc if=$< of=$@ status=none
-	printf '\x00\xfc' | dd conv=notrunc seek=1020 bs=1 of=$@ status=none
+	dd if=/dev/zero of=$@ count=1 bs=1k
+	dd conv=notrunc if=$< of=$@
+	printf '\x00\xfc' | dd conv=notrunc seek=1020 bs=1 of=$@
 
 %.hex: %.dump
 	hexdump -v -e '/1 "%02X "' < $< > $@

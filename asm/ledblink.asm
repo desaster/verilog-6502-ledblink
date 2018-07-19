@@ -17,7 +17,9 @@ loop:
 			; is assigned to led
 	inc num1	; increment value in memory for the next iteration
 
+!if SIM = 0 {
 	jsr sleep	; sleep
+}
 	jmp loop
 
 ; software sleep, this of course depends on clock speed
