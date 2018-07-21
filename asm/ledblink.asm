@@ -7,6 +7,9 @@ num1	= $0200		; counter, intended to be attached to leds
 scountl	= $0201		; sleep counter low byte
 scounth	= $0202		; sleep counter low byte
 
+	ldx #$ff	; setup stack
+	txs
+
 	lda #$00	; start value
 	sta num1	; store it to memory
 
