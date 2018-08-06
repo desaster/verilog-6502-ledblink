@@ -30,4 +30,4 @@ $(TARGET).vvp:	$(SRC)
 	$(IVERILOG) -DFINISHTIME=8000 -D LEDBLINKHEX=\"$(BLINKHEX)\" -o $@ $^
 
 $(BLINKHEX):	$(ASM)
-	make -C $(ASM) -f Makefile.$(shell uname) SIM=1
+	make -C $(ASM) -f Makefile SIM=1
